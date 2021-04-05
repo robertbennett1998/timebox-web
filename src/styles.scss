@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+$color-primary: #7ed56f;
+$color-primary-light: #55c57a;
+$color-primary-dark: #28b485;
+
+$color-white: #fff;
+$color-dark-gray: #777;
+$color-light-gray: #aaaaaa;
+
+$border-primary: 0.2rem solid $color-light-gray;
+
+$color-shadow: rgba(0, 0, 0, 0.3);
+
+*::after,
+*::before {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+}
