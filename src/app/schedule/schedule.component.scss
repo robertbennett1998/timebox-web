@@ -42,3 +42,11 @@ h1 {
 table div:first-child tr td {
   border-top: $border-primary;
 }
+
+.valid-drop-target {
+  background-color: magenta;
+}
+
+.invalid-drop-target {
+  background-color: gray;
+}

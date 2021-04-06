@@ -19,15 +19,18 @@ export class Draggable {
   selector: '[appDraggable]',
 })
 export class DraggableDirective {
-  @Input() targetables : string[] = ["test"];
+  @Input() targets !: string[];
 
   @HostListener("dragstart", ['$event']) onDragStart(e : DragEvent) {
+    this._draggingService.startDrag(new Draggable(this.targets));
   }
 
   @HostListener("dragend", ['$event']) onDragEnd(e : DragEvent) {
+    this._draggingService.cancelDrag();
   }
 
   constructor(private _elementRef : ElementRef, private _renderer : Renderer2, private _draggingService : DraggingService) {
+    _renderer.setAttribute(_elementRef.nativeElement, "draggable", "true");
   }
 
 }

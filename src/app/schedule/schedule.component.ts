@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Draggable } from '../directives/draggable.directive';
 import ScheduleModel from '../models/schedule.model';
 
 @Component({
@@ -14,5 +15,4 @@ export class ScheduleComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

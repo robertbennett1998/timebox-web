@@ -104,7 +104,7 @@ describe('DraggingService', () => {
     serviceUnderTest.activeDraggable = draggable;
 
     // Act
-    const canDrop = serviceUnderTest.canDrop(new DropTarget("test"));
+    const canDrop = serviceUnderTest.canDrop(new DropTarget(undefined, undefined, "test"));
 
     // Assert
     expect(canDrop).toBeTrue();
@@ -116,7 +116,7 @@ describe('DraggingService', () => {
     serviceUnderTest.activeDraggable = draggable;
 
     // Act
-    const canDrop = serviceUnderTest.canDrop(new DropTarget("b"));
+    const canDrop = serviceUnderTest.canDrop(new DropTarget(undefined, undefined, "b"));
 
     // Assert
     expect(canDrop).toBeTrue();
@@ -124,11 +124,10 @@ describe('DraggingService', () => {
 
   it('should allow a drop if the targetable list is empty', () => {
     // Arrange
-    const draggable = new Draggable();
-    serviceUnderTest.activeDraggable = draggable;
+    serviceUnderTest.activeDraggable = new Draggable();
 
     // Act
-    const canDrop = serviceUnderTest.canDrop(new DropTarget("test"));
+    const canDrop = serviceUnderTest.canDrop(new DropTarget());
 
     // Assert
     expect(canDrop).toBeTrue();
