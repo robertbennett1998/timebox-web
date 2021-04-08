@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { DraggableAlreadyActiveError } from '../errors/draggable-already-active.error';
+import { NoDraggableActiveError } from '../errors/no-draggable-active.error';
 import { Draggable } from '../models/draggable';
 import { DropTarget } from '../models/drop-target';
 
@@ -15,18 +17,38 @@ export class DraggingService {
   constructor() { }
 
   startDragging(draggable : Draggable) {
-    throw new Error('Method not implemented.');
+    if (this.activeDraggable !== null) {
+      throw DraggableAlreadyActiveError();
+    }
+
+    this._activeDraggable = draggable;
   }
 
   canDrop(dropTarget : DropTarget) {
-    throw new Error('Method not implemented.');
+    if (!this.activeDraggable) {
+      throw NoDraggableActiveError();
+    }
+
+    return dropTarget.canDrop(this.activeDraggable);
   }
 
   drop(dropTarget : DropTarget) {
-    throw new Error('Method not implemented.');
+    if (!this.activeDraggable) {
+      throw NoDraggableActiveError();
+    }
+
+    if (this.canDrop(dropTarget)) {
+      dropTarget.recieveDraggable(this.activeDraggable);
+    }
+
+    this.stopDragging();
   }
 
   stopDragging() {
-    throw new Error('Method not implemented.');
+    if (!this.activeDraggable) {
+      throw NoDraggableActiveError();
+    }
+
+    this._activeDraggable = null;
   }
 }

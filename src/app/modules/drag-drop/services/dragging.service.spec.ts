@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DraggableAlreadyActiveError } from '../errors/draggable-already-active.error';
+import { NoDraggableActiveError } from '../errors/no-draggable-active.error';
 import { Draggable } from '../models/draggable';
 import { DropTarget } from '../models/drop-target';
 
@@ -85,12 +86,24 @@ describe('DraggingService', () => {
       expect(dropTarget.canDrop).toHaveBeenCalledOnceWith(activeDraggable);
       expect(serviceUnderTest.activeDraggable).toBe(activeDraggable);
     });
+
+    it("should throw an error if there is no draggable active.", () => {
+        // Arrange
+        const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop"]);
+        dropTarget.canDrop.and.returnValue(false);
+
+        // Act
+       expect(() => serviceUnderTest.canDrop(dropTarget)).toThrow(NoDraggableActiveError());
+
+        // Assert
+        expect(dropTarget.canDrop).not.toHaveBeenCalled();
+    });
   });
 
   describe("drop", () => {
     it("should check the draggable can be dropped into the drop target and drop it if it can be dropped.", () => {
       // Arrange
-      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop"]);
+      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop", "recieveDraggable"]);
       dropTarget.canDrop.and.returnValue(true);
 
       const activeDraggable = new Draggable();
@@ -106,7 +119,7 @@ describe('DraggingService', () => {
 
     it("should check the draggable can be dropped into the drop target and NOT drop it if it can NOT be dropped.", () => {
       // Arrange
-      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop"]);
+      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop", "recieveDraggable"]);
       dropTarget.canDrop.and.returnValue(false);
 
       const activeDraggable = new Draggable();
@@ -119,15 +132,33 @@ describe('DraggingService', () => {
       expect(dropTarget.canDrop).toHaveBeenCalledOnceWith(activeDraggable);
       expect(dropTarget.recieveDraggable).not.toHaveBeenCalled();
     });
+
+    it("should throw an error if there is no draggable active.", () => {
+      // Arrange
+      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop", "recieveDraggable"]);
+      dropTarget.canDrop.and.returnValue(false);
+
+      // Act & Assert
+      expect(() => serviceUnderTest.drop(dropTarget)).toThrow(NoDraggableActiveError());
+      expect(dropTarget.canDrop).not.toHaveBeenCalled();
+    });
   });
 
   describe("stopDragging", () => {
     it("should set the active draggable to null.", () => {
+      // Arrange
+      serviceUnderTest.startDragging(new Draggable());
+
       // Act
       serviceUnderTest.stopDragging();
 
       // Assert
       expect(serviceUnderTest.activeDraggable).toBeNull();
+    });
+
+    it("should throw an error if there is no draggable active.", () => {
+      // Act & Assert
+      expect(() => serviceUnderTest.stopDragging()).toThrow(NoDraggableActiveError());
     });
   });
 });
