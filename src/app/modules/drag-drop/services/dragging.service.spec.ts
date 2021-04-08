@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { DraggableAlreadyActiveError } from '../errors/draggable-already-active.error';
 import { NoDraggableActiveError } from '../errors/no-draggable-active.error';
-import { Draggable } from '../models/draggable';
-import { DropTarget } from '../models/drop-target';
+import { DraggableBase } from '../models/draggable-base';
+import { DropTargetBase } from '../models/drop-target-base';
 
 import { DraggingService } from './dragging.service';
 
@@ -27,7 +27,7 @@ describe('DraggingService', () => {
   describe("startDragging", () => {
     it("should store the draggable as the active draggable.", () => {
       // Arrange
-      const draggable = new Draggable();
+      const draggable = new DraggableBase();
 
       // Act
       serviceUnderTest.startDragging(draggable);
@@ -38,8 +38,8 @@ describe('DraggingService', () => {
 
     it("should throw an error if a draggable is already active.", () => {
       // Arrange
-      const activeDraggable = new Draggable();
-      const newDraggable = new Draggable();
+      const activeDraggable = new DraggableBase();
+      const newDraggable = new DraggableBase();
       spyOnProperty(serviceUnderTest, "activeDraggable", "get").and.returnValue(activeDraggable);
 
       // Act
@@ -53,10 +53,10 @@ describe('DraggingService', () => {
   describe("canDrop", () => {
     it("should call and return the value from can drop on the drop target.", () => {
       // Arrange
-      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop"]);
+      const dropTarget = jasmine.createSpyObj<DropTargetBase>("DropTarget", ["canDrop"]);
       dropTarget.canDrop.and.returnValue(true);
 
-      const activeDraggable = new Draggable();
+      const activeDraggable = new DraggableBase();
       spyOnProperty(serviceUnderTest, "activeDraggable", "get").and.returnValue(activeDraggable);
 
 
@@ -71,10 +71,10 @@ describe('DraggingService', () => {
 
     it("should call and return the value from can drop on the drop target.", () => {
       // Arrange
-      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop"]);
+      const dropTarget = jasmine.createSpyObj<DropTargetBase>("DropTarget", ["canDrop"]);
       dropTarget.canDrop.and.returnValue(false);
 
-      const activeDraggable = new Draggable();
+      const activeDraggable = new DraggableBase();
       spyOnProperty(serviceUnderTest, "activeDraggable", "get").and.returnValue(activeDraggable);
 
 
@@ -89,7 +89,7 @@ describe('DraggingService', () => {
 
     it("should throw an error if there is no draggable active.", () => {
         // Arrange
-        const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop"]);
+        const dropTarget = jasmine.createSpyObj<DropTargetBase>("DropTarget", ["canDrop"]);
         dropTarget.canDrop.and.returnValue(false);
 
         // Act
@@ -103,10 +103,10 @@ describe('DraggingService', () => {
   describe("drop", () => {
     it("should check the draggable can be dropped into the drop target and drop it if it can be dropped.", () => {
       // Arrange
-      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop", "recieveDraggable"]);
+      const dropTarget = jasmine.createSpyObj<DropTargetBase>("DropTarget", ["canDrop", "recieveDraggable"]);
       dropTarget.canDrop.and.returnValue(true);
 
-      const activeDraggable = new Draggable();
+      const activeDraggable = new DraggableBase();
       spyOnProperty(serviceUnderTest, "activeDraggable", "get").and.returnValue(activeDraggable);
 
       // Act
@@ -119,10 +119,10 @@ describe('DraggingService', () => {
 
     it("should check the draggable can be dropped into the drop target and NOT drop it if it can NOT be dropped.", () => {
       // Arrange
-      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop", "recieveDraggable"]);
+      const dropTarget = jasmine.createSpyObj<DropTargetBase>("DropTarget", ["canDrop", "recieveDraggable"]);
       dropTarget.canDrop.and.returnValue(false);
 
-      const activeDraggable = new Draggable();
+      const activeDraggable = new DraggableBase();
       spyOnProperty(serviceUnderTest, "activeDraggable", "get").and.returnValue(activeDraggable);
 
       // Act
@@ -135,7 +135,7 @@ describe('DraggingService', () => {
 
     it("should throw an error if there is no draggable active.", () => {
       // Arrange
-      const dropTarget = jasmine.createSpyObj<DropTarget>("DropTarget", ["canDrop", "recieveDraggable"]);
+      const dropTarget = jasmine.createSpyObj<DropTargetBase>("DropTarget", ["canDrop", "recieveDraggable"]);
       dropTarget.canDrop.and.returnValue(false);
 
       // Act & Assert
@@ -147,7 +147,7 @@ describe('DraggingService', () => {
   describe("stopDragging", () => {
     it("should set the active draggable to null.", () => {
       // Arrange
-      serviceUnderTest.startDragging(new Draggable());
+      serviceUnderTest.startDragging(new DraggableBase());
 
       // Act
       serviceUnderTest.stopDragging();

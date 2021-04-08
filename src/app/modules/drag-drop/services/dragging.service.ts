@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { DraggableAlreadyActiveError } from '../errors/draggable-already-active.error';
 import { NoDraggableActiveError } from '../errors/no-draggable-active.error';
-import { Draggable } from '../models/draggable';
-import { DropTarget } from '../models/drop-target';
+import { DraggableBase } from '../models/draggable-base';
+import { DropTargetBase } from '../models/drop-target-base';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DraggingService {
-  private _activeDraggable : Draggable | null = null;
+  private _activeDraggable : DraggableBase | null = null;
 
-  public get activeDraggable(): Draggable | null {
+  public get activeDraggable(): DraggableBase | null {
     return this._activeDraggable;
   }
 
   constructor() { }
 
-  startDragging(draggable : Draggable) {
+  startDragging(draggable : DraggableBase) {
     if (this.activeDraggable !== null) {
       throw DraggableAlreadyActiveError();
     }
@@ -24,7 +24,7 @@ export class DraggingService {
     this._activeDraggable = draggable;
   }
 
-  canDrop(dropTarget : DropTarget) {
+  canDrop(dropTarget : DropTargetBase) {
     if (!this.activeDraggable) {
       throw NoDraggableActiveError();
     }
@@ -32,7 +32,7 @@ export class DraggingService {
     return dropTarget.canDrop(this.activeDraggable);
   }
 
-  drop(dropTarget : DropTarget) {
+  drop(dropTarget : DropTargetBase) {
     if (!this.activeDraggable) {
       throw NoDraggableActiveError();
     }
