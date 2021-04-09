@@ -1,24 +1,28 @@
+import { DropTargetBase } from "../modules/ez-drag-drop/models/drop-target-base";
 import ScheduableBase from "./scheduable-base.model";
 
-export default class TimeboxModel {
+export default class TimeboxModel extends DropTargetBase {
   /**
    * timeFrom - the time this box starts at
    * duration - the duration of this time box
    * allocatedScheduable - the currently scheduled scheduable
    * scheduableHistory - the list of all scheduables that have been scheduled
    */
-  constructor(private _from : Date, private _durationInMins : number, private _allocatedScheduable : ScheduableBase | null = null, private _scheduableHistory : ScheduableBase[] = []) {
+  constructor(private _from : Date, private _durationInMins : number, allocatedScheduable : ScheduableBase | null = null, private _scheduableHistory : ScheduableBase[] = []) {
+    super("timebox", allocatedScheduable);
   }
 
   set allocatedScheduable(scheduable : ScheduableBase | null) {
-    if (this._allocatedScheduable)
-      this._scheduableHistory.push(this._allocatedScheduable);
+    if (this.allocatedScheduable)
+    {
+      this._scheduableHistory.push(this.allocatedScheduable);
+    }
 
-    this._allocatedScheduable = scheduable;
+    super.draggable = scheduable;
   }
 
   get allocatedScheduable() : ScheduableBase | null {
-    return this._allocatedScheduable;
+    return <ScheduableBase>super.draggable;
   }
 
   get scheduableHistory() : ScheduableBase[] {

@@ -3,10 +3,10 @@ import { DropTargetBase } from '../models/drop-target-base';
 import { DraggingService } from '../services/dragging.service';
 
 @Directive({
-  selector: '[appDropTarget]'
+  selector: '[ezDropTarget]'
 })
 export class DropTargetDirective {
-  @Input("appDropTarget") dropTarget !: DropTargetBase;
+  @Input("ezDropTarget") dropTarget !: DropTargetBase;
 
   @HostListener("dragover", ['$event']) onDragOver(e : DragEvent) {
     if (this.draggingService.canDrop(this.dropTarget)) {

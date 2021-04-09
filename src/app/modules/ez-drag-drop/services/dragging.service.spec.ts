@@ -155,10 +155,5 @@ describe('DraggingService', () => {
       // Assert
       expect(serviceUnderTest.activeDraggable).toBeNull();
     });
-
-    it("should throw an error if there is no draggable active.", () => {
-      // Act & Assert
-      expect(() => serviceUnderTest.stopDragging()).toThrow(NoDraggableActiveError());
-    });
   });
 });

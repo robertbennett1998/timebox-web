@@ -33,7 +33,7 @@ describe('DropTarget', () => {
   });
 
   describe('canDrop', () => {
-    it('should return true if the draggable contains the name in its targetables array', () => {
+    it('should return true if the draggable contains the name in its targetables array AND there is no draggable assigned', () => {
       // Arrange
       const targetables = ["a", "b", "c"];
       const draggable = new DraggableBase();
@@ -48,7 +48,7 @@ describe('DropTarget', () => {
       expect(canDrop).toBeTrue();
     });
 
-    it('should return false if the draggable DOES NOT contain the name in its targetables array', () => {
+    it('should return false if the draggable DOES NOT contain the name in its targetables array AND there is NO draggable assigned', () => {
       // Arrange
       const targetables = ["a", "b", "c"];
       const draggable = new DraggableBase();
@@ -62,6 +62,38 @@ describe('DropTarget', () => {
       // Assert
       expect(canDrop).toBeFalse();
     });
+
+    it('should return false if the draggable contains the name in its targetables array AND there is a draggable assigned', () => {
+      // Arrange
+      const targetables = ["a", "b", "c"];
+      const draggable = new DraggableBase();
+      spyOnProperty(draggable, "targetables", "get").and.returnValue(targetables);
+
+      const dropTarget = new DropTargetBase("b");
+      dropTarget.draggable = draggable;
+
+      // Act
+      const canDrop = dropTarget.canDrop(draggable);
+
+      // Assert
+      expect(canDrop).toBeFalse();
+    });
+  });
+
+  it('should return false if the draggable DOES NOT contain the name in its targetables array AND there is a draggable assigned', () => {
+    // Arrange
+    const targetables = ["a", "b", "c"];
+    const draggable = new DraggableBase();
+    spyOnProperty(draggable, "targetables", "get").and.returnValue(targetables);
+
+    const dropTarget = new DropTargetBase();
+    dropTarget.draggable = draggable;
+
+    // Act
+    const canDrop = dropTarget.canDrop(draggable);
+
+    // Assert
+    expect(canDrop).toBeFalse();
   });
 
   describe('recieveDraggable', () => {
@@ -90,22 +122,6 @@ describe('DropTarget', () => {
 
       // Act
       const hasDropped = dropTarget.recieveDraggable(draggable);
-
-      // Assert
-      expect(hasDropped).toBeFalse();
-    });
-
-    it('should return false if a draggable is already in place here', () => {
-      // Arrange
-      const targetables = ["default"];
-      const draggable = new DraggableBase();
-      spyOnProperty(draggable, "targetables", "get").and.returnValue(targetables);
-
-      const dropTarget = new DropTargetBase("test");
-      spyOnProperty(dropTarget, "draggable").and.returnValue(draggable);
-
-      // Act
-      const hasDropped = dropTarget.recieveDraggable(draggable)
 
       // Assert
       expect(hasDropped).toBeFalse();

@@ -5,12 +5,16 @@
         <td class="time">
           <h1>{{timebox.from | toTimeSlotTime}}</h1>
         </td>
-        <td [ngClass]="{ 'timebox' : true, 'scheduled' : timebox.allocatedScheduable }" [ngStyle]="{'backgroundColor': timebox.allocatedScheduable?.color}">
-          <div appDraggable>
-            <h1>
-              {{timebox.allocatedScheduable?.id}}
-            </h1>
-          </div>
+        <td [ngClass]="{ 'timebox' : true, 'scheduled' : timebox.allocatedScheduable }" [ngStyle]="{'backgroundColor': timebox.allocatedScheduable?.color}" [ezDropTarget]="timebox">
+          <ng-container *ngIf="timebox.allocatedScheduable; else elseTemplate">
+            <div [ezDraggable]="timebox.allocatedScheduable">
+              <h1>
+                {{timebox.allocatedScheduable?.id}}
+              </h1>
+            </div>
+          </ng-container>
+          <ng-template #elseTemplate>
+          </ng-template>
         </td>
       </tr>
     </div>

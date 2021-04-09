@@ -6,21 +6,28 @@ export class DropTargetBase {
     return this._name;
   }
 
-  private _draggable : DraggableBase | null = null;
+  private _draggable: DraggableBase | null;
+  set draggable(value: DraggableBase | null) {
+    this._draggable = value;
+  }
   get draggable() : DraggableBase | null {
     return this._draggable;
   }
 
-  constructor(name : string = "default") {
+  constructor(name : string = "default", draggable : DraggableBase | null = null) {
     this._name = name;
+    this._draggable = draggable;
+
+    if (this.draggable)
+      this.draggable.dropTarget = this;
   }
 
   canDrop(draggable : DraggableBase) : boolean {
-    return draggable.targetables.includes(this.name);
+    return draggable.targetables.includes(this.name) && !this.draggable;
   }
 
   recieveDraggable(draggable : DraggableBase) : boolean {
-    if (!this.canDrop(draggable) || this.draggable)
+    if (!this.canDrop(draggable))
       return false;
 
     draggable.dropTarget = this;

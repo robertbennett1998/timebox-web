@@ -13,7 +13,7 @@ describe('DraggableDirective', () => {
 
   beforeEach(() => {
     elementRefSpy = jasmine.createSpyObj<ElementRef>("ElementRef", ["nativeElement"]);
-    renderer2Spy = jasmine.createSpyObj<Renderer2>("Renderer2", ["addClass", "removeClass"]);
+    renderer2Spy = jasmine.createSpyObj<Renderer2>("Renderer2", ["addClass", "removeClass", "setAttribute"]);
     draggingServiceSpy = jasmine.createSpyObj<DraggingService>("DraggingService", ["startDragging", "stopDragging"]);
 
     dragEventSpy = jasmine.createSpyObj(dragEventSpy, ["preventDefault", "stopPropagation"]);
@@ -24,6 +24,20 @@ describe('DraggableDirective', () => {
   it('should create an instance', () => {
     const directive = new DraggableDirective(elementRefSpy, renderer2Spy, draggingServiceSpy);
     expect(directive).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should add the canDrag attribute to the element.', () => {
+      // Arrange
+      const expectedAttribute = "draggable";
+      const expectedAttributeValue = "true";
+
+      // Act
+      directiveUnderTest.ngOnInit();
+
+      // Assert
+      expect(renderer2Spy.setAttribute).toHaveBeenCalledWith(elementRefSpy.nativeElement, expectedAttribute, expectedAttributeValue);
+    });
   });
 
   describe('onDragStart', () => {

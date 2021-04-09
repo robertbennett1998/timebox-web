@@ -45,10 +45,6 @@ export class DraggingService {
   }
 
   stopDragging() {
-    if (!this.activeDraggable) {
-      throw NoDraggableActiveError();
-    }
-
     this._activeDraggable = null;
   }
 }

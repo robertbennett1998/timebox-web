@@ -7,15 +7,18 @@ export class DraggableBase {
   }
 
   private _dropTarget: DropTargetBase | null;
+  public set dropTarget(value: DropTargetBase | null) {
+    if (this._dropTarget)
+      this._dropTarget.draggable = null;
+
+    this._dropTarget = value;
+  }
   public get dropTarget() : DropTargetBase | null {
     return this._dropTarget;
   }
-  public set dropTarget(value: DropTargetBase | null) {
-    this._dropTarget = value;
-  }
 
   constructor(targetables : string[] = ["default"], dropTarget : DropTargetBase | null = null) {
-    this._dropTarget = dropTarget;
     this._targetables = targetables;
+    this._dropTarget = dropTarget;
   }
 }

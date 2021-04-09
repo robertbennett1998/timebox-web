@@ -1,12 +1,12 @@
-import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 import { DraggableBase } from '../models/draggable-base';
 import { DraggingService } from '../services/dragging.service';
 
 @Directive({
-  selector: '[appDraggable]'
+  selector: '[ezDraggable]'
 })
-export class DraggableDirective {
-  @Input("appDraggable") draggable !: DraggableBase;
+export class DraggableDirective implements OnInit {
+  @Input("ezDraggable") draggable !: DraggableBase;
 
   @HostListener("dragstart", ['$event']) onDragStart(e : DragEvent) {
     this.draggingService.startDragging(this.draggable);
@@ -18,5 +18,9 @@ export class DraggableDirective {
 
   constructor(private elementRef : ElementRef, private renderer : Renderer2, private draggingService : DraggingService) {
 
+  }
+
+  ngOnInit(): void {
+    this.renderer.setAttribute(this.elementRef.nativeElement, "draggable", "true");
   }
 }
