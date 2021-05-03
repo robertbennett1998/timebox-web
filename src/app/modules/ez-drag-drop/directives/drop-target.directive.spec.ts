@@ -62,6 +62,87 @@ describe('DraggableDirective', () => {
       expect(dragEventSpy.preventDefault).not.toHaveBeenCalled();
       expect(dragEventSpy.stopPropagation).not.toHaveBeenCalled();
     });
+
+    describe('styling - default', () => {
+      it('should apply the default classes "ez-drag-over" and "ez-can-drop" when the drag over event is triggered and the draggable can be dropped', () => {
+        // Arrange
+        const dropTarget = new DropTargetBase();
+
+        draggingServiceSpy.canDrop.and.returnValue(true);
+
+        directiveUnderTest.dropTarget = dropTarget;
+
+        // Act
+        directiveUnderTest.onDragOver(dragEventSpy);
+
+        // Assert
+        expect(renderer2Spy.addClass).toHaveBeenCalledTimes(2);
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "ez-drag-over");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "ez-can-drop");
+      });
+
+      it('should apply the default classes "ez-drag-over" and "ez-can-not-drop" when the drag over event is triggered and the draggable can NOT be dropped', () => {
+        // Arrange
+        const dropTarget = new DropTargetBase();
+
+        draggingServiceSpy.canDrop.and.returnValue(false);
+
+        directiveUnderTest.dropTarget = dropTarget;
+
+        // Act
+        directiveUnderTest.onDragOver(dragEventSpy);
+
+        // Assert
+        expect(renderer2Spy.addClass).toHaveBeenCalledTimes(2);
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "ez-drag-over");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "ez-can-not-drop");
+      });
+    });
+
+    describe('styling - user', () => {
+      it('should apply the user defined classes when the drag over event is triggered and the draggable can be dropped', () => {
+        // Arrange
+        const dropTarget = new DropTargetBase();
+        directiveUnderTest.dragOverStyles = ['a', 'b'];
+        directiveUnderTest.canDropStyles = ['c', 'd'];
+
+        draggingServiceSpy.canDrop.and.returnValue(true);
+
+        directiveUnderTest.dropTarget = dropTarget;
+
+        // Act
+        directiveUnderTest.onDragOver(dragEventSpy);
+
+        // Assert
+        expect(renderer2Spy.addClass).toHaveBeenCalledTimes(4);
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "a");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "b");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "c");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "d");
+      });
+
+      it('should apply the user defined classes when the drag over event is triggered and the draggable can NOT be dropped', () => {
+        // Arrange
+        const dropTarget = new DropTargetBase();
+        directiveUnderTest.dragOverStyles = ['a', 'b'];
+        directiveUnderTest.canNotDropStyles = ['c', 'd'];
+
+        draggingServiceSpy.canDrop.and.returnValue(false);
+
+        directiveUnderTest.dropTarget = dropTarget;
+
+        // Act
+        directiveUnderTest.onDragOver(dragEventSpy);
+
+        // Assert
+        expect(renderer2Spy.addClass).toHaveBeenCalledTimes(4);
+        expect(directiveUnderTest['_appliedStyles']).toEqual(['a', 'b', 'c', 'd']);
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "a");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "b");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "c");
+        expect(renderer2Spy.addClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "d");
+      });
+    });
   });
 
   describe('onDrop', () => {
@@ -76,6 +157,26 @@ describe('DraggableDirective', () => {
 
       // Assert
       expect(draggingServiceSpy.drop).toHaveBeenCalledOnceWith(dropTarget);
+    });
+
+    it('should remove applied classes', () => {
+      // Arrange
+      const dropTarget = new DropTargetBase();
+
+      directiveUnderTest['_appliedStyles'] = ['a', 'b', 'c', 'd'];
+
+      directiveUnderTest.dropTarget = dropTarget;
+
+      // Act
+      directiveUnderTest.onDrop(dragEventSpy);
+
+      // Assert
+      expect(renderer2Spy.removeClass).toHaveBeenCalledTimes(4);
+      expect(directiveUnderTest['_appliedStyles']).toEqual([]);
+      expect(renderer2Spy.removeClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "a");
+      expect(renderer2Spy.removeClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "b");
+      expect(renderer2Spy.removeClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "c");
+      expect(renderer2Spy.removeClass).toHaveBeenCalledWith(elementRefSpy.nativeElement, "d");
     });
   });
 });
