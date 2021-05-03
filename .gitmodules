@@ -1,0 +1,3 @@
+[submodule "src/external/ezNg"]
+	path = src/external/ezNg
+	url = https://github.com/robertbennett1998/ezNg.git
