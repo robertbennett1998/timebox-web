@@ -1,4 +1,5 @@
-import { DraggableBase } from "../modules/ez-drag-drop/models/draggable-base";
+import { DraggableBase } from "../../external/ezNg/ez-drag-drop/models/draggable-base";
+
 
 export default class ScheduableBase extends DraggableBase {
   /**

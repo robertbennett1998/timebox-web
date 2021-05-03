@@ -1,4 +1,4 @@
-import { DropTargetBase } from "../modules/ez-drag-drop/models/drop-target-base";
+import { DropTargetBase } from "../../external/ezNg/ez-drag-drop/models/drop-target-base";
 import ScheduableBase from "./scheduable-base.model";
 
 export default class TimeboxModel extends DropTargetBase {
