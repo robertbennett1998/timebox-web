@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ScheduleComponent } from './schedule.component';
-import { ToTimeSlotTimePipe } from './../pipes/to-time-slot-time.pipe'
+import { ToTimeSlotTimePipe } from './../pipes/to-time-slot-time.pipe';
 import { AppModule } from '../app.module';
 
 describe('ScheduleComponent', () => {
@@ -9,10 +9,9 @@ describe('ScheduleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScheduleComponent ],
-      imports: [ AppModule ]
-    })
-    .compileComponents();
+      declarations: [ScheduleComponent],
+      imports: [AppModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {

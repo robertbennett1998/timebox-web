@@ -1,17 +1,24 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Guid } from 'guid-typescript';
 import ScheduleModel from '../models/schedule.model';
+import { ScheduleService } from '../services/schedule.service';
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss']
+  styleUrls: ['./schedule.component.scss'],
 })
 export class ScheduleComponent implements OnInit {
+  @Input() selectedScheduleId!: Guid;
+  schedule!: ScheduleModel;
 
-  schedule : ScheduleModel = new ScheduleModel(new Date(2021, 3, 26, 9, 0, 0, 0));
-
-  constructor() { }
+  constructor(private scheduleService: ScheduleService) {}
 
   ngOnInit(): void {
+    this.scheduleService
+      .getSchedule(this.selectedScheduleId)
+      .subscribe((schedule) => {
+        this.schedule = schedule;
+      });
   }
 }

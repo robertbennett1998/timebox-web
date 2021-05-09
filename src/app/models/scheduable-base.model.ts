@@ -1,19 +1,18 @@
-import { DraggableBase } from "../../external/ezNg/ez-drag-drop/models/draggable-base";
-
+import { DraggableBase } from '../../external/ezNg/ez-drag-drop/models/draggable-base';
 
 export default class ScheduableBase extends DraggableBase {
   /**
    * _id - Unique id of the scheduable.
    */
-  constructor(private _id : string, private _color : string = "#FF0") {
-    super(["timebox"])
+  constructor(private _id: string, private _color: string = '#FF0') {
+    super(['timebox']);
   }
 
-  get id() {
+  get id(): string {
     return this._id;
   }
 
-  get color() {
+  get color(): string {
     return this._color;
   }
 }

@@ -1,17 +1,16 @@
-import ScheduableBase from "./scheduable-base.model";
+import ScheduableBase from './scheduable-base.model';
 
 describe('ScheduableBase', () => {
   const date = new Date(Date.now());
   const duration = 5;
 
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
   it('was created', () => {
     // Act
-    const modelUnderTest : ScheduableBase = new ScheduableBase("id");
+    const modelUnderTest: ScheduableBase = new ScheduableBase('id');
 
     // Assert
-    expect(modelUnderTest.id).toBe("id");
+    expect(modelUnderTest.id).toBe('id');
   });
 });

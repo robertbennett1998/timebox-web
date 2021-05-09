@@ -106,8 +106,9 @@
     },
     "variable-name": {
       "options": [
-        "ban-keywords",
+        true,
         "check-format",
+        "allow-leading-underscore",
         "allow-pascal-case"
       ]
     },
@@ -139,7 +140,6 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
       "camelCase"
     ],
     "component-selector": [

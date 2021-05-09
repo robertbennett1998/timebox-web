@@ -13,14 +13,10 @@ import { EzDragDropModule } from '../external/ezNg/ez-drag-drop/ez-drag-drop.mod
     AppComponent,
     ScheduleComponent,
     TimeboxComponent,
-    ToTimeSlotTimePipe
+    ToTimeSlotTimePipe,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    EzDragDropModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, EzDragDropModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
