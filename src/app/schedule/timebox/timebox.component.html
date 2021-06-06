@@ -1,1 +1,12 @@
-<p>timebox works!</p>
+<div
+  [ngClass]="{ timebox: true, scheduled: timebox.allocatedScheduable }"
+  [ngStyle]="{ backgroundColor: timebox.allocatedScheduable?.color }"
+  [ezDropTarget]="timebox"
+>
+  <ng-container *ngIf="timebox.allocatedScheduable; else noScheduable">
+    <app-scheduable [scheduable]="timebox.allocatedScheduable"></app-scheduable>
+  </ng-container>
+  <ng-template #noScheduable>
+      &nbsp;
+  </ng-template>
+</div>

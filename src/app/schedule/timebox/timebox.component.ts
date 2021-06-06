@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import TimeboxModel from 'src/app/models/timebox.model';
 
 @Component({
   selector: 'app-timebox',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./timebox.component.scss'],
 })
 export class TimeboxComponent implements OnInit {
+  @Input() timebox!: TimeboxModel;
+
   constructor() {}
 
   ngOnInit(): void {}

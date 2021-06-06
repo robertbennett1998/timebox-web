@@ -48,10 +48,6 @@ export default class ScheduleModel {
     return this._date;
   }
 
-  get timeSlotLengthInMins(): number {
-    return this._timeslotLengthInMins;
-  }
-
   get timeboxes(): TimeboxModel[] {
     return this.generatedTimeboxes;
   }
